@@ -1,0 +1,21 @@
+language: php
+php:
+  - '5.6'
+  - '7.0'
+  - '7.1'
+
+services:
+  - mysql
+  - postgresql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS tests;'
+  - psql -c 'create database tests;' -U postgres
+
+before_script:
+  - composer update
+
+script:
+  - vendor/bin/phpunit -c testing/phpunit.mysql.xml
+  - vendor/bin/phpunit -c testing/phpunit.sqlite.xml
+  - vendor/bin/phpunit -c testing/phpunit.postgresql.xml
