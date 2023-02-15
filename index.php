@@ -22,9 +22,9 @@
         require_once( "logsys/examples/two-step-login/change.php");
         require_once( "logsys/examples/two-step-login/home.php");
         require_once( "logsys/examples/two-step-login/index.php");
-        require_once( "logsys/examples/two-step-login/login.php");
+ #      require_once( "logsys/examples/two-step-login/login.php");
         require_once( "logsys/examples/two-step-login/logout.php");
-        require_once( "logsys/examples/two-step-login/LS.php");
+        require_once( "logsys/src/Fr/LS.php");
         require_once( "logsys/examples/two-step-login/manage-devices.php");
         require_once( "logsys/examples/two-step-login/register.php");
         require_once( "logsys/examples/two-step-login/reset.php");
@@ -569,167 +569,19 @@
             </div>           
             <div class="content">
             <h1>Log In</h1>
-                        <?php
-                            $two_step_login_form_display = false;
-                            try {
-                                    if (isset($_POST['action_login'])) {
-                                        /**
-                                            * Try login
-                                         */
-                                        $LS->twoStepLogin($_POST['login'], $_POST['password'], isset($_POST['remember_me']));
-                                    } else {
-                                             /**
-                                             * Handle 2 Step Login
-                                            */
-                                            $LS->twoStepLogin();
-                                    }
-                                    } catch (Fr\LS\TwoStepLogin $TSL) {
-                                         if ($TSL->getStatus() === 'login_fail') {
-                                             echo '<h2>Error</h2><p>Username / Password Wrong !</p>';
-                                        } elseif ($TSL->getStatus() === 'blocked') {
-                                            $blockInfo = $TSL->getBlockInfo();
-                                            echo '<h2>Error</h2><p>Too many login attempts. You can attempt login after ' . $blockInfo['minutes'] . ' minutes (' . $blockInfo['seconds'] . ' seconds)</p>';
-                                        } elseif ($TSL->getStatus() === 'enter_token_form' || $TSL->getStatus() === 'invalid_token') {
-                                            $two_step_login_form_display = true;
-
-                                            if ($TSL->getStatus() === 'invalid_token') {
-                                                echo '<p>Wrong token. You have ' . $TSL->getOption('tries_left') . ' tries left</p>';
-                                     } ?>
-                                    <form action='<?php echo Fr\LS::curPageURL(); ?>' method='POST'>
-                                               <p>A token was sent to your E-Mail address. Paste the token in the box below :</p>
-                                               <label>
-                                                    <input type='text' name='two_step_login_token' placeholder='Paste the token here... (case sensitive)' />
-                                              </label><br/><br/>
-                                                <label>
-                                                   <span>Remember this device ?</span>
-                                                   <input type='checkbox' name='two_step_login_remember_device' />
-                                                </label><br/><br/>
-                                                 <input type='hidden' name='two_step_login_uid' value='<?php echo $TSL->getOption('uid'); ?>' />
-                                 <?php
-                                                if ($TSL->getOption('remember_me')) {
-                                 ?>
-                                                <input type='hidden' name='two_step_login_remember_me' />
-                                 <?php
-
-                                 }
-                                                     echo $LS->csrf('i'); ?>
-                                                    <label>
-                                                            <button>Verify</button>
-                                                            <a onclick="window.location.reload();" href="#">Resend Token</a>
-                                                    </label>
-                                        </form>
-                                <?php
-
-                                        } elseif ($TSL->getStatus() === 'login_success') {
-                                         // Nothing to do. Auto Init will do the redirect if it's enabled
-                                        } elseif ($TSL->isError()) {
-                                                echo '<h2>Error</h2><p>' . $TSL->getStatus() . '</p>';
-                                    }
-                            }
-                                if (! $two_step_login_form_display) {
-                            ?>
-                                    <form action="login.php" method="POST" style="margin:0px auto;display:table;">
-                                        <label>
-                                            <p>Username / E-Mail</p>
-                                            <input name="login" type="text"/>
-                                    `</label><br/>
-                                        <label>
-                                                p>Password</p>
-                                                <input name="password" type="password"/>
-                                        </label><br/>
-                                        <label>
-                                                <p>
-                                                    <input type="checkbox" name="remember_me"/> Remember Me
-                                                </p>
-                                            </label>
-                                            <div clear></div>
-                                                <button style="width:150px;" name="action_login">Log In</button>
-                                </form>
-                         <?php
-
-                                 }
-                        ?>
-                <style>
-                        input[type=text], input[type=password]{
-                            width: 230px;
-                        }
-                </style>
-                <p>
-                    <p>Don't have an account ?</p>
-                    <p>Register for a New Accout.</p>
-                 </p>
-                    </div>
-
-            <div id="Register" class="tabcontent">
-                 <div class="content">
-                        <h1class="section-subheading text-muted">Register for a New Accout.</h1>
-                        <form action="register.php" method="POST">
-                                <label>
-                                    <input name="username" placeholder="Username" />
-                                </label>
-                                <label>
-                                    <input name="email" placeholder="E-Mail" />
-                                </label>
-                                <label>
-                                    <input name="pass" type="password" placeholder="Password" />
-                                </label>
-                                <label>
-                                    <input name="retyped_password" type="password" placeholder="Retype Password" />
-                                </label>
-                                <label>
-                                    <input name="name" placeholder="Name" />
-                                </label>
-                                <label>
-                                    <button name="submit">Register</button>
-                                </label>
-                            </form>
-                            <?php
-                            if (isset($_POST['submit'])) {
-                                $username         = $_POST['username'];
-                                $email            = $_POST['email'];
-                                $password         = $_POST['pass'];
-                                $retyped_password = $_POST['retyped_password'];
-                                $name             = $_POST['name'];
-                                if ($username == '' || $email == '' || $password == '' || $retyped_password == '' || $name == '') {
-                                    echo '<h2>Fields Left Blank</h2>', '<p>Some Fields were left blank. Please fill up all fields.</p>';
-                                } elseif (! $LS->validEmail($email)) {
-                                    echo '<h2>E-Mail Is Not Valid</h2>', '<p>The E-Mail you gave is not valid</p>';
-                                } elseif (! ctype_alnum($username)) {
-                                    echo '<h2>Invalid Username</h2>', "<p>The Username is not valid. Only ALPHANUMERIC characters are allowed and shouldn't exceed 10 characters.</p>";
-                                } elseif ($password != $retyped_password) {
-                                    echo "<h2>Passwords Don't Match</h2>", "<p>The Passwords you entered didn't match</p>";
-                                } else {
-                                    $createAccount = $LS->register($username, $password,
-                                        array(
-                                            'email'   => $email,
-                                            'name'    => $name,
-                                            'created' => date('Y-m-d H:i:s'), // Just for testing
-                                        )
-                                    );
-                                    if ($createAccount === 'exists') {
-                                        echo '<label>User Exists.</label>';
-                                    } elseif ($createAccount === true) {
-                                        echo "<label>Success. Created account. <a href='login.php'>Log In</a></label>";
-                                    }
-                                }
-                            }
-                            ?>
-                            <style>
-                                label{
-                                    display: block;
-                                    margin-bottom: 5px;
-                                }
-                            </style>
-                        </div>
-                                </div>
+            l   <p>Don't have an account ?</p>
+                <h1class="section-subheading text-muted">Register for a New Accout.</h1>
+                <?php
+    #                        register();
+                ?>        
+                   </div>
             </div>
-
-            <div id="Passwird" class="tabcontent">
+            <div id="Password" class="tabcontent">
                  <div class="content">
                     <h1 class="section-subheading text-muted">Forgot/Reset Password</h1>
                     <?php
-                            $LS->forgotPassword();
-                    ?>
+   #                       reset();
+                     ?>
                </div>
             </div>
             
@@ -737,7 +589,7 @@
 
             <div class="content">
                 <h1 class="section-subheading text-muted">Log Out</h1>
-                $LS->logout();
+                 logout ();
             </div>
 
         </section>
