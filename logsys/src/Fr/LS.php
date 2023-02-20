@@ -424,7 +424,7 @@ HTML;
         $this->config($config);
 
         if ($this->config['features']['start_session'] === true) {
-            session_start();
+#            session_start();
         }
 
         /**
@@ -1553,7 +1553,7 @@ HTML;
      */
     public static function redirect($url, $status = 302)
     {
-        header('Location: ' . $url, true, $status);
+        #        header('Location: ' . $url, true, $status);
         exit;
     }
 
