@@ -22,7 +22,7 @@
         require_once( "logsys/examples/two-step-login/change.php");
         require_once( "logsys/examples/two-step-login/home.php");
         require_once( "logsys/examples/two-step-login/index.php");
- #      require_once( "logsys/examples/two-step-login/login.php");
+        require_once( "logsys/examples/two-step-login/login.php");
         require_once( "logsys/examples/two-step-login/logout.php");
         require_once( "logsys/src/Fr/LS.php");
         require_once( "logsys/examples/two-step-login/manage-devices.php");

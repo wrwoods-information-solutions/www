@@ -566,14 +566,14 @@ HTML;
                 $this->init();
             }
 
-            return true;
+            return;
         } catch (PDOException $e) {
             /**
              * Couldn't connect to Database
              */
             self::log('Could not connect to database. Check config->db credentials. PDO Output: ' . $e->getMessage());
 
-            return false;
+            return;
         }
     }
 
