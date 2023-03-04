@@ -7,30 +7,30 @@
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
-        <script src="//code.jivosite.com/widget/LPubjoT9aP" async></script>
+        <script src=" //code.jivosite.com/widget/LPubjoT9aP" async></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- Core theme CS S (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link href="css/custom.css" rel="stylesheet" />
     </head>
     <body id="page-top">
-    <?php
-        require_once( "logsys/examples/two-step-login/config.php");
-        require_once( "logsys/examples/two-step-login/change.php");
-        require_once( "logsys/examples/two-step-login/home.php");
-        require_once( "logsys/examples/two-step-login/index.php");
-        require_once( "logsys/examples/two-step-login/login.php");
-        require_once( "logsys/examples/two-step-login/logout.php");
-        require_once( "logsys/src/Fr/LS.php");
-        require_once( "logsys/examples/two-step-login/manage-devices.php");
-        require_once( "logsys/examples/two-step-login/register.php");
-        require_once( "logsys/examples/two-step-login/reset.php");
-        require_once( "logsys/examples/two-step-login/status.php");
+        <?php
+            require_once( "logsys/examples/two-step-login/config.php");
+            require_once( "logsys/e mxamples/two-step-login/change.php");
+            require_once( "logsys/examples/two-step-login/home.php");
+            require_once( "logsys/examples/two-step-login/index.php");
+            require_once( "logsys/examples/two-step-login/login.php");
+            require_once( "logsys/examples/two-step-login/logout.php");
+            require_once( "logsys/src/Fr/LS.php");
+            require_once( "logsys/examples/two-step-login/manage-devices.php");
+            require_once( "logsys/examples/two-step-login/register.php");
+            require_once( "logsys/examples/two-step-login/reset.php");
+            require_once( "logsys/examples/two-step-login/status.php");
 
-    ?>    
+        ?>    
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
